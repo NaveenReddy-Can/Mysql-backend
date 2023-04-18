@@ -11,13 +11,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Install SSH client
-      run: sudo apt-get install -y openssh-client
-    - name: Install Node.js and npm
-      run: |
-        curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-        sudo apt-get install -y nodejs
-        sudo apt-get install -y npm
     - name: SSH into Azure Linux machine
       uses: appleboy/ssh-action@master
       with:
@@ -29,7 +22,7 @@ jobs:
           cd ~
           git clone https://github.com/NaveenReddy-Can/Mysql-backend.git
           cd mysql-backend
-          npm install react-scripts
+          npm install react-scripts --force
     - name: Start Node.js app
       uses: appleboy/ssh-action@master
       with:
