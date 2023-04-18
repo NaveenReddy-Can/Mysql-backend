@@ -21,7 +21,7 @@ jobs:
         script: |
           cd ~
           git clone https://github.com/NaveenReddy-Can/Mysql-backend.git
-          cd mysql-backend
+          cd Mysql-backend
           npm install react-scripts --force
     - name: Start Node.js app
       uses: appleboy/ssh-action@master
@@ -31,5 +31,5 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          cd ~/mysql-backend
+          cd ~/Mysql-backend
           nodemon start
