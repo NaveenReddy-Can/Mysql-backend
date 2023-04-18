@@ -1,0 +1,42 @@
+name: Deploy Node.js app to Azure Linux using SSH
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install SSH client
+      run: sudo apt-get install -y openssh-client
+    - name: Install Node.js and npm
+      run: |
+        curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+        sudo apt-get install -y npm
+    - name: SSH into Azure Linux machine
+      uses: appleboy/ssh-action@master
+      with:
+        host: 40.121.48.98
+        username: azureuser
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~
+          git clone https://github.com/NaveenReddy-Can/Mysql-backend.git
+          cd mysql-backend
+          npm install react-scripts
+    - name: Start Node.js app
+      uses: appleboy/ssh-action@master
+      with:
+        host: 40.121.48.98
+        username: azureuser
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          cd ~/Mysql-backend
+          nodemon start
